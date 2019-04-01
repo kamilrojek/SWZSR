@@ -1,0 +1,116 @@
+﻿@model List<Order>
+@{
+    if (ViewData["ReturnKey"]?.ToString() == null) { ViewData["Title"] = "Lista wszystkich zleceń"; }
+    if (ViewData["ReturnKey"]?.ToString() == "new") { ViewData["Title"] = "Nowe zlecenia"; }
+    if (ViewData["ReturnKey"]?.ToString() == "accepted") { ViewData["Title"] = "Oczekujące zlecenia"; }
+    if (ViewData["ReturnKey"]?.ToString() == "inprogress") { ViewData["Title"] = "Zlecenia w trakcie"; }
+    if (ViewData["ReturnKey"]?.ToString() == "completed") { ViewData["Title"] = "Zlecenia gotowe do odbioru"; }
+}
+
+@using System.Text.RegularExpressions
+<div class="col-12">
+    <h2>@ViewData["Title"]</h2>
+
+    @if (Model.Count() > 0)
+    {
+        <ul class="orderListAdmin">
+            @foreach (var order in Model)
+            {
+                foreach (var orderItem in order.OrderItems)
+                {
+                    <li>
+                        <div class="bar">
+                            <span class="group">
+                                <a href="#" class="more">v</a>
+                                <p class="number">@orderItem.ItemModel | @orderItem.ItemColour</p>
+                            </span>
+                            <p class="date">@order.OrderState | @order.DateDelivered.ToString("dd.MM.yy")</p>
+                        </div>
+                        <div class="more-info">
+                            <div class="row justify-content-between">
+                                <div class="col-4">
+                                    <p>
+                                        <strong>Szczegóły dotyczące roweru:</strong><br>
+                                        - marka i model: @orderItem.ItemModel<br>
+                                        - kolor: @orderItem.ItemColour
+                                    </p>
+                                    <p>
+                                        <strong>Opis usterki:</strong><br>
+                                        @orderItem.Comment
+                                    </p>
+                                    <p>
+                                        <strong>Komentarz do zlecenia:</strong><br>
+                                        @order.Comment
+                                    </p>
+                                </div>
+                                <div class="col-4">
+                                    <p>
+                                        <strong>Kontakt:</strong><br>
+                                        - imię: @order.User.Firstname<br>
+                                        - telefon: @Regex.Replace(order.PhoneNumber, @"(\d{3})(\d{3})(\d{3})", "$1-$2-$3")<br>
+                                        - email: @order.User.Email<br>
+                                    </p>
+                                    <p>
+                                        <strong>Zdjęcie usterki/roweru:</strong><br>
+                                        @if (orderItem.ItemPhoto == null)
+                                        {
+                                            <span>brak</span>
+                                        }
+                                        else
+                                        {
+                                            <a href="~/@orderItem.ItemPhoto" target="_blank"><img src="~/@orderItem.ItemPhoto" style="border: 3px solid #888888; max-width: 150px; max-height: 160px; width: auto; height: auto;" /></a>
+                                        }
+                                    </p>
+                                </div>
+                                <div class="col-4">
+                                    <ul class="services-list-admin">
+                                        @foreach (var service in orderItem.OrderItemServices)
+                                        {
+                                            <li>
+                                                @service.Service.Name <span>@service.UnitPrice</span>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row justify-content-end action-buttons">
+                                @if (order.OrderState == OrderState.New && User.IsInRole("Admin"))
+                                {
+                                    <form asp-action="NextOrderStatus" asp-route-returnkey="@ViewData["ReturnKey"]" asp-route-orderid="@order.OrderId" method="post" style="margin: 0;">
+                                        <a asp-action="EditOrder" asp-route-orderid="@order.OrderId" class="btn btn-sm btn-warning">Edytuj zlecenie</a>
+                                        <button type="submit" class="btn btn-sm btn-success">Przyjmij zlecenie</button>
+                                    </form>
+                                }
+                                @if (order.OrderState == OrderState.Accepted && (User.IsInRole("Admin") || User.IsInRole("Mechanic")))
+                                {
+                                <form asp-action="TakeOrderItem" asp-controller="Workshop" asp-route-orderitemid="@orderItem.OrderItemId" asp-route-orderid="@order.OrderId" method="post" style="margin: 0;">
+                                    @if (User.IsInRole("Admin")) { <a asp-action="EditOrder" asp-route-orderid="@order.OrderId" class="btn btn-sm btn-warning">Edytuj zlecenie</a> }
+                                    <button type="submit" class="btn btn-sm btn-success">Rozpocznij naprawę</button>
+                                </form>
+                                }
+                                @if (order.OrderState == OrderState.InProgress && (User.IsInRole("Admin") || User.IsInRole("Mechanic")))
+                                {
+                                <form asp-action="NextOrderStatus" asp-route-returnkey="@ViewData["ReturnKey"]" asp-route-orderid="@order.OrderId" method="post" style="margin: 0;">
+                                    @if (User.IsInRole("Admin")) {<a asp-action="EditOrder" asp-route-orderid="@order.OrderId" class="btn btn-sm btn-warning">Edytuj zlecenie</a>}
+                                    <a asp-action="EditOrderItem" asp-controller="Workshop" asp-route-orderitemid="@orderItem.OrderItemId" class="btn btn-sm btn-warning">Kontynuuj naprawę</a>
+                                    <button type="submit" class="btn btn-sm btn-success">Zakończ naprawę</button>
+                                </form>
+                                }
+                                @if (order.OrderState == OrderState.Completed && User.IsInRole("Admin"))
+                                {
+                                    <form asp-action="NextOrderStatus" asp-route-returnkey="@ViewData["ReturnKey"]" asp-route-orderid="@order.OrderId" method="post" style="margin: 0;">
+                                        <button type="submit" class="btn btn-sm btn-success">Odbiór przez klienta</button>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </li>
+                }
+            }
+        </ul>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/js/additional/adminOrderList.js"></script>
+}

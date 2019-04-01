@@ -1,0 +1,18 @@
+﻿@using SWZSR.Infrastructure.Alerts
+@model List<Alert>
+
+@foreach (var alert in Model)
+{
+    var dismissableClass = alert.Dismissable ? "alert-dismissable" : null;
+    <div class="col-8">
+        <div class="row">
+            <div class="alert alert-@alert.AlertStyle @dismissableClass">
+                @if (alert.Dismissable)
+                {
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                }
+                @Html.Raw(alert.Messege)
+            </div>
+        </div>
+    </div>
+}

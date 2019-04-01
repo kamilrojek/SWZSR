@@ -1,0 +1,24 @@
+﻿@model Service
+@{
+    ViewData["Title"] = "Edycja usługi";
+}
+
+<div class="col-12">
+    <h2>@ViewData["Title"]</h2>
+
+    <form asp-action="EditService" method="post" style="margin: 0;">
+        <table class="table table-sm table-dark">
+            <thead class="thead-light"><tr><th>Nazwa</th><th>Cena</th><th>Czas wykonania [dni]</th><th>Akcje</th></tr></thead>
+            <tbody>
+                <tr>
+                    <input type="hidden" asp-for="ServiceId" />
+                    <td class="align-middle"><input asp-for="Name" /></td>
+                    <td class="align-middle"><input asp-for="Price" /></td>
+                    <td class="align-middle"><input asp-for="EstimatedTime" /></td>
+                    <td class="align-middle"><button type="submit" class="btn btn-sm btn-primary">Zapisz</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>

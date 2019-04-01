@@ -1,0 +1,113 @@
+﻿@model SWZSR.ViewModels.ManageAccountsViewModel
+@{
+    ViewData["Title"] = "Zarządzanie użytkownikami";
+}
+
+<div class="w-100"></div>
+<div class="col-auto">
+    <a class="btn btn-dark" asp-action="AddAccount">Dodaj użytkownika</a>
+</div>
+<div class="w-100"></div>
+
+<div class="col-12">
+    <h2>Administratorzy</h2>
+
+    <table class="table table-sm table-dark">
+        <thead class="thead-light"><tr><th>Imię i nazwisko</th><th>Adres email</th><th>Numer telefonu</th><th>Akcje</th></tr></thead>
+        <tbody>
+            @if (Model.Admins.Count() == 0)
+            {
+                <tr><td colspan="4" class="text-center">Brak kont administratorów</td></tr>
+            }
+            else
+            {
+                foreach (var user in Model.Admins)
+                {
+                    <tr>
+                        <td class="align-middle">@user.Firstname @user.Lastname</td>
+                        <td class="align-middle">@user.Email</td>
+                        <td class="align-middle">@user.PhoneNumber</td>
+                        <td>
+                            <form asp-action="DeleteAccount" asp-route-id="@user.Id" method="post" style="margin: 0;">
+                                <a class="btn btn-sm btn-primary" asp-action="ChangeAccount" asp-route-id="@user.Id">Edytuj</a>
+                                <button type="submit" class="btn btn-sm btn-danger">Usuń</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="col-12">
+    <h2>Mechanicy</h2>
+
+    <table class="table table-sm table-dark">
+        <thead class="thead-light"><tr><th>Imię i nazwisko</th><th>Adres email</th><th>Numer telefonu</th><th>Akcje</th></tr></thead>
+        <tbody>
+            @if (Model.Mechanics.Count() == 0)
+            {
+                <tr><td colspan="4" class="text-center">Brak kont użytkowników</td></tr>
+            }
+            else
+            {
+                foreach (var user in Model.Mechanics)
+                {
+                    <tr>
+                        <td class="align-middle">@user.Firstname @user.Lastname</td>
+                        <td class="align-middle">@user.Email</td>
+                        <td class="align-middle">@user.PhoneNumber</td>
+                        <td>
+                            <form asp-action="DeleteAccount" asp-route-id="@user.Id" method="post" style="margin: 0;">
+                                <a class="btn btn-sm btn-primary" asp-action="ChangeAccount" asp-route-id="@user.Id">Edytuj</a>
+                                <button type="submit" class="btn btn-sm btn-danger">Usuń</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="col-12">
+    <h2>Klienci</h2>
+
+    <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
+
+    <table class="table table-sm table-dark">
+        <thead class="thead-light"><tr><th>Imię i nazwisko</th><th>Adres email</th><th>Numer telefonu</th><th>Akcje</th></tr></thead>
+        <tbody>
+            @if (Model.Clients.Count() == 0)
+            {
+                <tr><td colspan="4" class="text-center">Brak kont użytkowników</td></tr>
+            }
+            else
+            {
+                foreach (var user in Model.Clients)
+                {
+                    <tr>
+                        <td class="align-middle">@user.Firstname @user.Lastname</td>
+                        <td class="align-middle">@user.Email</td>
+                        <td class="align-middle">@user.PhoneNumber</td>
+                        <td>
+                            <form asp-action="DeleteAccount" asp-route-id="@user.Id" method="post" style="margin: 0;">
+                                <a class="btn btn-sm btn-primary" asp-action="ChangeAccount" asp-route-id="@user.Id">Edytuj</a>
+                                <button type="submit" class="btn btn-sm btn-danger">Usuń</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+
+</div>
+
+<div class="w-100"></div>
+<div class="col-auto">
+    <a class="btn btn-dark" asp-action="AddAccount">Dodaj użytkownika</a>
+</div>
+

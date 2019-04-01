@@ -1,0 +1,76 @@
+﻿@model Order
+@{
+    ViewData["Title"] = "Szczegóły zlecenia " + Model.OrderId;
+}
+@using System.Text.RegularExpressions
+<div class="col-12">
+    <h2>Szczegóły zlecenia <span class="green">@Model.OrderId</span></h2>
+
+    <ul class="seeOrderList">
+        @foreach (var orderItem in Model.OrderItems)
+        {
+            <li>
+                <div class="bar">
+                    <p class="name">@orderItem.ItemModel [@orderItem.ItemColour]</p>
+                    <p class="date">Telefon: @Regex.Replace(Model.PhoneNumber, @"(\d{3})(\d{3})(\d{3})", "$1-$2-$3")</p>
+                </div>
+                <div class="more-info">
+                    <div class="row justify-content-between">
+                        <div class="col-4">
+                            <p>
+                                <strong>Komentarz do roweru:</strong><br>
+                                @orderItem.Comment
+                            </p>
+                            <p>
+                                <strong>Komentarz do zlecenia:</strong><br>
+                                @Model.Comment
+                            </p>
+                        </div>
+                        <div class="col-4">
+                            <p>
+                                <strong>Kontakt:</strong><br>
+                                - telefon: @Model.PhoneNumber<br>
+                                - email: @Model.User.Email<br>
+                            </p>
+                        </div>
+                        <div class="col-4">
+                            <ul class="services-list-admin">
+                                @foreach (var service in orderItem.OrderItemServices)
+                                {
+                                    <li>
+                                        @service.Service.Name <span>@service.UnitPrice</span>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+
+
+    @*@if (User.IsInRole("Client"))
+        {
+            if (Model.OrderState == OrderState.New)
+            {
+                <form asp-action="EditOrder" asp-controller="Order" asp-route-orderId="@Model.OrderId" method="post" style="margin: 0;">
+                    <button type="submit" class="btn btn-sm btn-success">Edytuj zlecenie</button>
+                </form>
+            }
+        }*@
+    @if (User.IsInRole("Mechanic"))
+    {
+        if (Model.OrderState == OrderState.Accepted)
+        {
+    <form asp-action="TakeOrderItem" asp-controller="Workshop" asp-route-orderitemid="@Model.OrderItems[0].OrderItemId" asp-route-orderid="@Model.OrderId" method="post" style="margin: 0;">
+        <button type="submit" class="btn btn-sm btn-success">Rozpocznij naprawę</button>
+    </form>
+        }
+    }
+    else if (User.IsInRole("Admin"))
+    {
+        <a asp-action="EditOrder" asp-route-orderId="@Model.OrderId" class="btn btn-sm btn-primary">Edytuj</a>
+        <a asp-action="AllOrders" class="btn btn-sm btn-dark">Anuluj</a>
+    }
+</div>

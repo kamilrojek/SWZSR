@@ -1,0 +1,80 @@
+﻿@model IList<Order>
+@{
+    ViewData["Title"] = "Moje zlecenia";
+}
+
+<div class="col-12">
+    <h2>Moje <span class="green">zlecenia serwisowe</span></h2>
+    @if (Model.Count() > 0)
+    {
+        foreach (var order in Model)
+        {
+            <div class="row myorder-row">
+                <div class="col-12 short">
+                    <div class="statusbar">
+                        <h3>Zlecenie z dnia: <span class="green">@order.DateCreated</span></h3>
+                        <h3 class="status">Status: <span class="green">@order.OrderState</span></h3>
+                    </div>
+                    <div class="row order-form-group myorders justify-content-between">
+                        <div class="col-8">
+                            @if (order.OrderItems != null)
+                            {
+                                foreach (var orderItem in order.OrderItems)
+                                {
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h4>@orderItem.ItemModel [@orderItem.ItemColour]</h4>
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Usługa</th>
+                                                        <th scope="col">Koszt</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (orderItem.OrderItemServices != null)
+                                                    {
+                                                        foreach (var orderItemService in orderItem.OrderItemServices)
+                                                        {
+                                                            <tr>
+                                                                <td>@orderItemService.Service.Name</td>
+                                                                <td>@orderItemService.UnitPrice</td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <div class="col-4 order-details">
+                            <h3>Status: <span class="green">@order.OrderState</span></h3>
+                            <div class="flex-column">
+                                @if (order.OrderState != OrderState.Completed || order.OrderState != OrderState.Received)
+                                { <p>Szacowany koszt:</p> }
+                                else { <p>Koszt serwisu:</p> }
+                                <p class="big"><span id="service-sum">@order.TotalPrice</span>zł</p>
+                            </div>
+                            <div class="flex-column">
+                                @if (order.OrderState != OrderState.Completed || order.OrderState != OrderState.Received)
+                                { <p>Szacowana data odbioru:</p> }
+                                else { <p>Data zakończenia serwisu:</p> }
+                                <p class="big" id="service-date">@order.DateCompleted.ToString("dd.MM.yyyy")</p>
+                            </div>
+                        </div>
+                        <div class="long-to-short">ROZWIŃ</div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="alert alert-warning">Nie znaleziono zleceń.</div>
+    }
+</div>
+@section Scripts {
+    <script src="~/js/additional/myorders.js"></script>
+}

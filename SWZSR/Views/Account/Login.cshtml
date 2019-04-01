@@ -1,0 +1,91 @@
+﻿@model SWZSR.ViewModels.LoginRegisterViewModel
+@{
+    ViewData["Title"] = "Zaloguj się lub zarejestruj";
+}
+<!--<div class="alert-warning" asp-validation-summary="All"></div>-->
+<div class="col-8">
+    <h2>Masz już konto? <span class="green">Zaloguj się!</span></h2>
+
+    <form asp-action="Login" method="post">
+        <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+        <div class="row">
+            <div class="col-6">
+                <input asp-for="LoginViewModel.Email" />
+                <label asp-for="LoginViewModel.Email">Email</label>
+                <p class="input-warning">@Html.ValidationMessageFor(o => o.LoginViewModel.Email)</p>
+            </div>
+            <div class="col-6">
+                <input asp-for="LoginViewModel.Password" />
+                <label asp-for="LoginViewModel.Password">Hasło</label>
+                <p class="input-warning">@Html.ValidationMessageFor(o => o.LoginViewModel.Password)</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col form-check">
+                <label class="form-check-label"><input asp-for="LoginViewModel.RememberMe" class="form-check-input" /> Zapamiętaj mnie</label>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-auto">
+                <input type="submit" value="Zaloguj się">
+            </div>
+        </div>
+    </form>
+
+
+    <h2>Rejestracja <span class="green">użytkownika</span></h2>
+
+    <form asp-action="Register" method="post">
+        <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+        <div class="row">
+            <div class="col-6">
+                <input asp-for="RegisterViewModel.FirstName" />
+                <label asp-for="RegisterViewModel.FirstName">Imię</label>
+                <p class="input-warning">@Html.ValidationMessageFor(o => o.RegisterViewModel.FirstName)</p>
+            </div>
+            <div class="col-6">
+                <input asp-for="RegisterViewModel.LastName" />
+                <label asp-for="RegisterViewModel.LastName">Nazwisko</label>
+                <p class="input-warning">@Html.ValidationMessageFor(o => o.RegisterViewModel.LastName)</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <input asp-for="RegisterViewModel.Email" />
+                <label asp-for="RegisterViewModel.Email">Email</label>
+                <p class="input-warning">@Html.ValidationMessageFor(o => o.RegisterViewModel.Email)</p>
+            </div>
+            <div class="col-6">
+                <input asp-for="RegisterViewModel.PhoneNumber" />
+                <label asp-for="RegisterViewModel.PhoneNumber">Numer telefonu</label>
+                <p class="input-warning">@Html.ValidationMessageFor(o => o.RegisterViewModel.PhoneNumber)</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <input asp-for="RegisterViewModel.Password" />
+                <label asp-for="RegisterViewModel.Password">Hasło</label>
+                <p class="input-warning">@Html.ValidationMessageFor(o => o.RegisterViewModel.Password)</p>
+            </div>
+            <div class="col-6">
+                <input asp-for="RegisterViewModel.ConfirmPassword" />
+                <label asp-for="RegisterViewModel.ConfirmPassword">Powtórz hasło</label>
+                <p class="input-warning">@Html.ValidationMessageFor(o => o.RegisterViewModel.ConfirmPassword)</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col form-check">
+                <label class="form-check-label">
+                    @Html.CheckBoxFor(o => o.RegisterViewModel.RegAccept, new { @class = "form-check-input" })
+                    Oświadczam, iż zapoznałem się z treścią Regulaminu i wyrażam zgodę na przetwarzanie moich danych osobowych dla potrzeb niezbędnych do realizacji procesu rejestracji oraz korzystania z usług oferowanych przez serwis.
+                </label>
+                <p class="input-warning">@Html.ValidationMessageFor(o => o.RegisterViewModel.RegAccept)</p>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-auto">
+                <input type="submit" value="Załóż konto">
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,26 +1,7 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
-for details on configuring this project to bundle and minify static web assets. */
-body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
-
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
-}
-
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
+﻿body {
+    font-family: 'Open Sans', sans-serif;
+    color: #1f1f1f;
+    font-size: 14px;
 }
 
 /* QR code generator */
@@ -28,10 +9,712 @@ body {
     margin: 15px;
 }
 
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
+.green {
+    color: #678e3a;
+}
+
+a {
+    color: #678e3a;
+    transition: 0.2s linear all;
+}
+
+    a:hover {
+        color: #436917;
+    }
+
+.main-header {
+    background: url("../images/head_bg.png") no-repeat center #1f1f1f;
+    height: 143px;
+}
+
+    .main-header .container, .main-header .row { height: 100%; }
+
+    .main-header .row > .col:last-child {
+        text-align: right;
+        color: #ffffff;
+        text-transform: uppercase;
+        font-size: 100%;
+    }
+
+    .main-header a, .menu-header a {
+        color: inherit;
+    }
+
+.menu-header {
+    background: #d7d7d7;
+    font-size: 100%;
+}
+
+    .menu-header span.spacer {
+        padding: 0 10px;
+    }
+
+    .menu-header .row > .col {
+        margin: 12px 0;
+    }
+
+.menu-header-secondary {
+    background: #1f1f1f;
+    color: #e8e8e8;
+    font-size: 100%;
+}
+
+    .menu-header-secondary a {
+        color: #e8e8e8;
+    }
+
+.main-menu {
+    list-style: none;
+    margin: 12px 0;
+}
+
+    .main-menu > li {
+        display: inline-block;
+        border-left: 1px solid #949494;
+        padding-left: 12px;
+        padding-right: 10px;
+    }
+
+        .main-menu > li:first-child {
+            border: none;
+            padding-left: 0;
+        }
+
+        .main-menu > li:last-child {
+            padding-right: 0;
+        }
+
+.main-content {
+    margin: 30px auto;
+}
+
+h2 {
+    font-size: 170%;
+}
+
+form {
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+
+    form p.input-warning {
+        font-size: 80%;
+        color: #c03e32;
+        position: absolute;
+        /* bottom: 0; */
+        
+        padding-right: 15px;
+        /* transform: translateY(65%); */
+        text-transform: uppercase;
+        margin: 0;
+    }
+        form p.input-warning span:not(:empty)::before {
+            content: 'BŁĄD: ';
+            font-weight: 700;
+        }
+
+            input[type="submit"] {
+                color: #ffffff;
+                text-transform: uppercase;
+                font-size: 100%;
+                font-weight: 600;
+                font-family: 'Open Sans', sans-serif;
+                border: none;
+                width: 240px;
+                height: 42px;
+                cursor: pointer;
+                transition: 0.2s all linear;
+                background: #678e3a;
+            }
+
+        input + label + p.input-warning {
+            top: 0;
+            right: 0;
+        }
+
+    input[type="submit"]:hover {
+        background: #79a548;
+    }
+
+    input[type="submit"].type-2 {
+        color: #1f1f1f;
+        background: #e8e8e8;
+        border: 2px solid #1f1f1f;
+    }
+
+        input[type="submit"].type-2:hover {
+            background: #fff;
+            border-color: #000;
+        }
+
+.loginBtn--facebook {
+    background: #3e5dbc;
+    width: 220px;
+}
+
+.loginBtn--google {
+    background: #c03e32;
+    width: 220px;
+}
+
+.loginBtn--facebook:hover {
+    background: rgba(62, 93, 188, 0.9);
+}
+
+.loginBtn--google:hover {
+    background: rgba(192, 62, 50, 0.9);
+}
+
+input[type="text"], input[type="password"], input[type="email"], input[type="tel"], textarea {
+    width: 100%;
+    height: 42px;
+    background: #e8e8e8;
+    border: 1px solid #1f1f1f;
+    border-right: none;
+    border-top: none;
+    margin-top: 16px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-size: 100%;
+    font-family: 'Open Sans', sans-serif;
+    outline: 0;
+    transition: 150ms ease-out all;
+    padding: 0 12px;
+}
+
+textarea {
+    padding: 12px;
+    min-height: 173px;
+}
+
+    input[type="text"] + label, input[type="password"] + label, input[type="email"] + label, input[type="tel"] + label, textarea + label {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-60%);
+        color: #1f1f1f;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 100%;
+        text-transform: uppercase;
+        left: 30px;
+        cursor: pointer;
+        transition: 150ms ease-out all;
+    }
+
+    input[type="text"] + label, input[type="password"] + label, input[type="email"] + label, input[type="tel"] + label, textarea + label {
+        font-size: 80%;
+        top: 0;
+        transform: translateY(0);
+        left: 15px;
+    }
+
+label {
+    text-align: justify;
+}
+
+
+footer.main-footer {
+    background: #1f1f1f;
+    color: #6e6e6e;
+    font-size: 80%;
+    padding-top: 25px;
+    padding-bottom: 10px;
+}
+
+/* bootstrap addons */
+.row.bike-group {
+    border-bottom: 3px solid #678e3a;
+    box-sizing: border-box;
+    margin: 30px 0 15px 0;
+}
+
+    .row.bike-group > .col-8 {
+        padding-right: 5%;
+        padding-left: 0;
+    }
+
+    .row.bike-group input[type="text"], .row.bike-group textarea, .order-form-group input[type="text"], .order-form-group textarea {
+        margin-bottom: 10px;
+    }
+
+.row.bike-group .services {
+    background: #e8e8e8;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+    .row.bike-group .services button.dropdown-toggle {
+        margin-top: 0;
+        margin-bottom: 15px;
+    }
+
+.order-form-group {
+    margin: 15px 0 15px 0;
+}
+
+    .order-form-group > .col-8 {
+        padding-right: calc(5%);
+    }
+
+        .order-form-group > .col-8 > .row {
+            margin-left: -30px;
+        }
+
+    .order-form-group .order-details {
+        background: #e8e8e8;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+        .order-form-group .order-details h3 {
+            margin-bottom: 40px;
+        }
+
+        .order-form-group .order-details p {
+            font-size: 130%;
+            margin-bottom: 0;
+        }
+
+            .order-form-group .order-details p.big {
+                text-align: right;
+                text-transform: uppercase;
+                font-size: 1.5rem;
+                font-weight: 400;
+            }
+
+                .order-form-group .order-details p.big span {
+                    font-size: 2.7rem;
+                    font-weight: 700;
+                }
+
+button.dropdown-toggle {
+    width: 100%;
+    border-radius: 0;
+    background: #e8e8e8;
+    border: 1px solid #1f1f1f;
+    border-right: none;
+    border-top: none;
+    margin-top: 16px;
+    color: #1f1f1f;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 100%;
+    text-transform: uppercase;
+    height: 42px;
+}
+
+.bootstrap-select > .dropdown-toggle.bs-placeholder, .bootstrap-select > .dropdown-toggle.bs-placeholder:active, .bootstrap-select > .dropdown-toggle.bs-placeholder:focus, .bootstrap-select > .dropdown-toggle.bs-placeholder:hover {
+    color: #1f1f1f;
+}
+
+.btn-light:not(:disabled):not(.disabled).active, .btn-light:not(:disabled):not(.disabled):active, .show > .btn-light.dropdown-toggle {
+    color: #1f1f1f;
+    background-color: #e8e8e8;
+    border-color: #1f1f1f;
+}
+
+.filter-option-inner-inner {
+    margin-top: 4px;
+}
+
+.dropdown-menu {
+    margin: 0;
+    padding: 0;
+    background-color: #e8e8e8;
+    border-radius: 0;
+    border-bottom: 1px solid #1f1f1f;
+    border-left: 1px solid #1f1f1f;
+    font-size: 100%;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    background-color: #678e3a;
+}
+
+.bs-searchbox > input[type="text"] {
+    border-radius: 0;
+    font-size: 100%;
+    height: 30px;
+    background: #fff;
+    margin: 5px auto;
+}
+
+h3 {
+    color: #1f1f1f;
+    font-size: 130%;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+h4 {
+    color: #1f1f1f;
+    font-size: 100%;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+ul.services-list {
+    padding: 0;
+}
+
+    ul.services-list > li {
+        list-style: none;
+        margin: 0;
+        background: #f6f6f6;
+        text-transform: uppercase;
+        color: #1f1f1f;
+        display: block;
+        padding: 10px 8px;
+        margin: 5px 0;
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+    }
+
+        ul.services-list > li:hover {
+            cursor: pointer;
+        }
+
+        ul.services-list > li:after {
+            content: 'usuń';
+            background: #e63d3d;
+            color: #f6f6f6;
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            transform: translateX(100px);
+            transition: 0.2s ease-in-out all;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        ul.services-list > li:hover:after {
+            transform: translateX(0px);
+        }
+
+        ul.services-list > li span:after {
+            content: 'zł';
+        }
+
+
+.order-item-container.hidden {
+    display: none;
+}
+
+.order-form-group.myorders {
+    border-bottom: 3px solid #ccc;
+}
+
+.myorders table tr th:last-child, .myorders table tr td:last-child {
+    width: 100px;
+}
+
+.myorder-row > div {
+    transition: 0.2s ease-in-out all;
+    margin-top: 15px;
+}
+
+    .myorder-row > div div.long-to-short {
+        width: 100%;
+        height: 100%;
+        background: none;
+        top: 0;
+        left: 0;
+        color: #f1f1f1;
+        font-size: 140%;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s ease-in-out all;
+        cursor: pointer;
+        background: #5a5a5a;
+        height: 35px;
+    }
+
+.myorder-row div.long-to-short:hover {
+    background: #678e3a;
+}
+
+.myorder-row > .short {
+    display: flex;
+    justify-content: space-between;
+    background: #e8e8e8;
+    padding-top: 15px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+    .myorder-row > .short > .myorders > .col-8, .myorder-row > .short > .myorders > .col-4 {
         display: none;
     }
+
+    .myorder-row > .short > .statusbar > h3 {
+        margin: 0;
+    }
+
+    .myorder-row > .short div.long-to-short {
+        transform: translateY(-200px);
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: none;
+        top: 0;
+        left: 0;
+        color: #f1f1f1;
+        font-size: 140%;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s ease-in-out all;
+        cursor: pointer;
+    }
+
+    .myorder-row > .short:hover div.long-to-short {
+        transform: translateY(0px);
+        background: #5a5a5a;
+    }
+
+.myorder-row > div > .statusbar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
+
+    .myorder-row > div > .statusbar h3.status {
+        display: none;
+    }
+
+.myorder-row > .short > .statusbar h3.status {
+    display: block;
+}
+
+ul.orderListAdmin {
+    display: block;
+    width: 100%;
+    padding: 0;
+}
+
+    ul.orderListAdmin li {
+        list-style: none;
+        display: block;
+        width: 100%;
+        background: #e8e8e8;
+        margin-bottom: 4px;
+    }
+
+        ul.orderListAdmin li .bar {
+            display: flex;
+            width: 100%;
+            padding-right: 20px;
+            height: 53px;
+            font-size: 130%;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #f6f6f6;
+            position: relative;
+            transition: 0.2s ease-in-out all;
+            overflow: hidden;
+        }
+
+            ul.orderListAdmin li .bar span.group {
+                display: flex;
+                padding: 0;
+                margin: 0;
+                height: 100%;
+                align-items: center;
+            }
+
+            ul.orderListAdmin li .bar p {
+                margin: 0;
+                padding: 0;
+            }
+
+            ul.orderListAdmin li .bar a.more {
+                display: block;
+                height: 100%;
+                box-sizing: border-box;
+                padding-top: 13px;
+                width: 53px;
+                text-align: center;
+                border-right: 1px solid #f6f6f6;
+                margin-right: 10px;
+            }
+
+                ul.orderListAdmin li .bar a.more:hover {
+                    background: #678e3a;
+                    color: #f1f1f1;
+                    text-decoration: none;
+                }
+
+        ul.orderListAdmin li > div.more-info {
+            display: none;
+        }
+
+        ul.orderListAdmin li.active > div.more-info {
+            display: flex;
+            width: calc(100%-52px);
+            background: #cdcdcd;
+            margin-left: 52px;
+            border-left: 1px solid #f6f6f6;
+            box-sizing: border-box;
+            padding: 10px 5px;
+            flex-direction: column;
+        }
+
+            ul.orderListAdmin li.active > div.more-info > .row {
+                width: 100%;
+                margin: 0;
+            }
+
+            ul.orderListAdmin li.active > div.more-info ul.services-list-admin {
+                width: 100%;
+            }
+
+                ul.orderListAdmin li.active > div.more-info ul.services-list-admin > li {
+                    list-style: none;
+                    margin: 0;
+                    background: #f6f6f6;
+                    text-transform: uppercase;
+                    color: #1f1f1f;
+                    display: block;
+                    padding: 10px 8px;
+                    margin: 5px 0;
+                    display: flex;
+                    justify-content: space-between;
+                    position: relative;
+                    overflow: hidden;
+                }
+
+                    ul.orderListAdmin li.active > div.more-info ul.services-list-admin > li span:after {
+                        content: 'ZŁ'
+                    }
+
+
+div.alert { margin: 15px auto; width: 100%; }
+div.alert:empty { display: none; }
+.navbar-btn.navbar-link {
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    color: #e8e8e8;
+    text-transform: uppercase;
+}
+    .navbar-btn.navbar-link:hover { text-decoration: underline; }
+    form#logoutForm {
+        margin: 0;
+    }
+.custom-file { margin: 10px auto; }
+    .custom-file-label {
+        border-color: #1f1f1f;
+        cursor: pointer;
+        border-radius: 0;
+        padding-left: 112px;
+        background: #e8e8e8;
+        z-index:10;
+    }
+    .custom-file-label::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 10;
+        display: block;
+        height: calc(1.5em + 0.75rem);
+        padding: 0.375rem 0.75rem;
+        line-height: 1.5;
+        color: #e8e8e8;
+        content: "Plik z dysku";
+        background-color: #678e3a;
+        border-radius: 0;
+        cursor: pointer;
+    }
+    .custom-file-label::after {
+        display: none;
+    }
+
+ul.seeOrderList {
+    display: block;
+    width: 100%;
+    padding: 0;
+}
+
+    ul.seeOrderList li {
+        list-style: none;
+        display: block;
+        width: 100%;
+        background: #e8e8e8;
+        margin-bottom: 4px;
+    }
+
+        ul.seeOrderList li .bar {
+            display: flex;
+            width: 100%;
+            padding: 0 20px;
+            height: 53px;
+            font-size: 130%;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #f6f6f6;
+            position: relative;
+            transition: 0.2s ease-in-out all;
+            overflow: hidden;
+        }
+
+            ul.seeOrderList li .bar p {
+                margin: 0;
+                padding: 0;
+            }
+
+            ul.seeOrderList li .bar a.more {
+                display: block;
+                height: 100%;
+                box-sizing: border-box;
+                padding-top: 13px;
+                width: 53px;
+                text-align: center;
+                border-right: 1px solid #f6f6f6;
+                margin-right: 10px;
+            }
+
+        ul.seeOrderList li > div.more-info {
+            display: flex;
+            width: calc(100%-20px);
+            background: #cdcdcd;
+            margin-left: 20px;
+            border-left: 1px solid #f6f6f6;
+            box-sizing: border-box;
+            padding: 10px 5px;
+        }
+
+            ul.seeOrderList li > div.more-info > .row {
+                width: 100%;
+                margin: 0;
+            }
+
+                ul.seeOrderList li > div.more-info ul.services-list-admin {
+                    width: 100%;
+                }
+
+                    ul.seeOrderList li > div.more-info ul.services-list-admin > li {
+                        list-style: none;
+                        margin: 0;
+                        background: #f6f6f6;
+                        text-transform: uppercase;
+                        color: #1f1f1f;
+                        display: block;
+                        padding: 10px 8px;
+                        margin: 5px 0;
+                        display: flex;
+                        justify-content: space-between;
+                        position: relative;
+                        overflow: hidden;
+                    }
+
+                    ul.seeOrderList li > div.more-info ul.services-list-admin > li span:after {
+                        content: 'ZŁ'
+                    }

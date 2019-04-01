@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Kalendarz zleceń";
+}
+
+<div class="col-12">
+    <h2>@ViewData["Title"]</h2>
+
+    <div id='calendar'></div>
+
+</div>
+
+@section StylesTop {
+    <link rel="stylesheet" href="~/vendor/fullcalendar/dist/fullcalendar.min.css">
+}
+
+@section Scripts {
+    <script src="~/vendor/moment/min/moment-with-locales.min.js"></script>
+    <script src="~/vendor/fullcalendar/dist/fullcalendar.min.js"></script>
+
+    <script>
+        $(function () {
+            $('#calendar').fullCalendar({
+                locale: 'pl',
+                events: {
+                    url: '/Workshop/GetOrdersToCalendar',
+                    type: 'GET',
+                    error: function () {
+                        alert('there was an error while fetching events!');
+                    }
+                }
+            })
+
+        });
+    </script>
+}

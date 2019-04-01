@@ -1,75 +1,133 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SWZSR</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="~/vendor/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    @RenderSection("StylesTop", required: false)
+    @*<environment include="Development">
+            <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+            <link rel="stylesheet" href="~/css/site.css" />
+        </environment>
+        <environment exclude="Development">
+            <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+                  asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+                  asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
 
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        </environment>*@
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <header class="main-header container-fluid">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">SWZSR</a>
+            <div class="row align-items-center justify-content-start">
+                <div class="col">
+                    <img src="~/images/logo.png">
+                </div>
+                <div class="col">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
+                            <button type="submit" class="navbar-btn navbar-link">Witaj, @UserManager.GetUserName(User)! Wyloguj się</button>
+                        </form>
+                    }
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
-                <partial name="_LoginPartial" />
+        </div>
+    </header>
+
+    <nav class="menu-header container-fluid">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col">
+                    @ViewData["Title"]
+                </div>
+                <div class="col-auto">
+                    <ul class="main-menu">
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            if (User.IsInRole("Client"))
+                            {
+                                <li><a asp-controller="Order" asp-action="NewOrder"><strong>ODDAJ ROWER NA SERWIS</strong></a></li>
+                                <li><a asp-controller="Order" asp-action="MyOrders">MOJE NAPRAWY</a></li>
+                                <li><a asp-controller="Account" asp-action="MyAccount">MOJE KONTO</a></li>
+                                <li><a asp-controller="Home" asp-action="StaticContent" asp-route-viewname="Contact">KONTAKT</a></li>
+                            }
+                            else if (User.IsInRole("Mechanic"))
+                            {
+                                <li><a asp-controller="Workshop" asp-action="ToDoList"><strong>KALENDARZ ZLECEŃ</strong></a></li>
+                                <li><a asp-controller="Order" asp-action="AllOrders" asp-route-key="inprogress">ZLECENIA W TRAKCIE</a></li>
+                                <li><a asp-controller="Order" asp-action="AllOrders" asp-route-key="accepted">NOWE ZLECENIA</a></li>
+                            }
+                            else if (User.IsInRole("Admin"))
+                            {
+                                <li><a asp-controller="Order" asp-action="AllOrders"><strong>ZLECENIA</strong></a></li>
+                                <li><a asp-controller="ManageAccount" asp-action="Index">UŻYTKOWNICY</a></li>
+                                <li><a asp-controller="Service" asp-action="AllServices">CENNIK</a></li>
+                                <li><a asp-controller="Admin" asp-action="Settings">KONFIGURACJA</a></li>
+                            }
+                        }
+                        else
+                        {
+                            <li><a asp-controller="Home" asp-action="Index"><strong>LOGOWANIE I REJESTRACJA</strong></a></li>
+                            <li><a asp-controller="Home" asp-action="StaticContent" asp-route-viewname="Contact">KONTAKT</a></li>
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
+    @if (User.IsInRole("Admin"))
+    {
+        <nav class="menu-header-secondary container-fluid">
+            <div class="container">
+                <div class="row align-items-center justify-content-end">
+                    <div class="col-auto">
+                        <ul class="main-menu">
+                            <li><a asp-controller="Workshop" asp-action="ToDoList"><strong>KALENDARZ ZLECEŃ</strong></a></li>
+                            <li><a asp-controller="Order" asp-action="FindOrder">ZNAJDŹ ZLECENIE</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    }
 
     <partial name="_CookieConsentPartial" />
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2019 - SWZSR</p>
-        </footer>
-    </div>
+    <main class="main-content container">
+        <div class="row justify-content-md-center">
+            <vc:alerts></vc:alerts>
+            <script src="~/vendor/jquery/dist/jquery.js"></script>
+
+            @RenderBody()
+        </div>
+    </main>
+    <footer class="main-footer container-fluid">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <p>&copy; @DateTime.Now.Year System Wspomagania Zarządzania Serwisem Rowerowym</p>
+            </div>
+        </div>
+    </footer>
 
     <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="~/vendor/bootstrap/dist/js/bootstrap.js"></script>
     @RenderSection("Scripts", required: false)
+
 </body>
 </html>

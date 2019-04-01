@@ -1,0 +1,107 @@
+﻿@model SWZSR.ViewModels.OrderViewModel
+@{
+    ViewData["Title"] = "Edytuj zlecenie";
+}
+
+@section StylesTop {
+    <link href="~/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+}
+
+<div class="col-12">
+    <h2>Edytuj <span class="green">zlecenie serwisowe</span></h2>
+    <form asp-action="EditOrder" asp-controller="Order" method="post">
+        <input type="hidden" asp-for="Order.OrderId" />
+        <div class="row bike-group justify-content-between order-item-container">
+            <div class="col-8">
+                <div class="row justify-content-between">
+                    <div class="col-6">
+                        <input asp-for="Order.OrderItems[0].ItemModel" />
+                        <label asp-for="Order.OrderItems[0].ItemModel">Marka i/lub model roweru</label>
+                    </div>
+                    <div class="col-6">
+                        <input asp-for="Order.OrderItems[0].ItemColour" />
+                        <label asp-for="Order.OrderItems[0].ItemColour">Kolor roweru</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <textarea asp-for="Order.OrderItems[0].Comment"></textarea>
+                        <label asp-for="Order.OrderItems[0].Comment">Opis usterki</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 services">
+                <h3>Wybrane usługi</h3>
+
+                <select class="selectpicker uslugi-dropdown" data-select-id="0" data-live-search="true" title="Wybierz usługę z listy" data-width="100%" data-style="">
+                    @if (Model.Services != null)
+                    {
+                        foreach (var s in Model.Services)
+                        {
+                            <option value="@s.ServiceId" id="serviceId-@s.ServiceId" data-price="@s.Price">@s.Name</option>
+                        }
+                    }
+                </select>
+
+                <h4>Usługa</h4>
+                <ul class="services-list services-list-Id-0" data-select-id="0">
+                    @if (Model.Order.OrderItems[0].OrderItemServices != null)
+                    {
+                        foreach (var i in Model.Order.OrderItems[0].OrderItemServices)
+                        {
+                            <li data-price="@i.UnitPrice" data-id="@i.ServiceId">@i.Service.Name <span>@i.UnitPrice</span></li>
+                        }
+                    }
+                </ul>
+                <div class="services-inputs-Id-0">
+                    @if (Model.Order.OrderItems[0].OrderItemServices != null)
+                    {
+                        int index = 0;
+                        foreach (var i in Model.Order.OrderItems[0].OrderItemServices)
+                        {
+                            <input type="hidden" name="Order.OrderItems[0].OrderItemServices[@index].ServiceId" value="@i.ServiceId">
+                            <input type="hidden" name="Order.OrderItems[0].OrderItemServices[@index].UnitPrice" value="@i.UnitPrice">
+                            index++;
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="row order-form-group justify-content-between">
+            <div class="col-8">
+                <div class="row justify-content-between">
+                    <div class="col-6">
+                        <input asp-for="Order.PhoneNumber" />
+                        <label asp-for="Order.PhoneNumber">Numer telefonu</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <textarea asp-for="Order.Comment"></textarea>
+                        <label asp-for="Order.Comment">Komentarz do zlecenia</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 order-details">
+                <h3>Szczegóły zlecenia</h3>
+                <div class="flex-column">
+                    <p>Szacowany koszt:</p>
+                    <p class="big"><span id="service-sum">0</span>zł</p>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-auto">
+                <input type="submit" value="Zapisz zlecenie">
+            </div>
+        </div>
+    </form>
+
+</div>
+
+@section Scripts {
+    @*<script src="~/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>*@
+    <script src="~/js/bootstrap-select.min.js"></script>
+    <script src="~/js/additional/editorder.js"></script>
+}
+

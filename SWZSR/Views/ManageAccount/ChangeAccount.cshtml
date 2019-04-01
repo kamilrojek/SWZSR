@@ -1,0 +1,62 @@
+﻿@model SWZSR.ViewModels.ManageAccountViewModel
+@{
+    ViewData["Title"] = "Zmiana danych użytkownika";
+}
+<div class="col-8">
+    <h2>Zmiana danych <span class="green">użytkownika</span></h2>
+
+    <div asp-validation-summary="All" class="alert alert-danger"></div>
+    <form asp-action="ChangeAccount" method="post">
+        <div class="row">
+            <div class="col-6">
+                <input asp-for="Id" disabled />
+                <label asp-for="Id">Id użytkownika</label>
+            </div>
+            <div class="col-6">
+                <input asp-for="Email" />
+                <label asp-for="Email">Email</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <input asp-for="FirstName" />
+                <label asp-for="FirstName">Imię</label>
+            </div>
+            <div class="col-6">
+                <input asp-for="LastName" />
+                <label asp-for="LastName">Nazwisko</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <input asp-for="PhoneNumber" />
+                <label asp-for="PhoneNumber">Numer telefonu</label>
+            </div>
+            <div class="col-6">
+                <input asp-for="Password" />
+                <label asp-for="Password">Hasło</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <select asp-for="RoleName" class="form-control">
+                    @foreach (var role in Model.Roles)
+                    {
+                        <option>@role.Name</option>
+                    }
+                </select>
+                <label asp-for="RoleName">Dodaj rolę</label>
+            </div>
+            <div class="col-6">
+                <input asp-for="UserRoles" disabled value="@String.Join(", ", Model.UserRoles.ToArray())" />
+                <label asp-for="UserRoles">Role użytkownika</label>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Zapisz</button>
+                <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+            </div>
+        </div>
+    </form>
+</div>

@@ -3,41 +3,50 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using SWZSR.Data;
+using SWZSR.Infrastructure;
+using SWZSR.Infrastructure.Alerts;
 using SWZSR.Models;
 
 namespace SWZSR.Controllers
 {
     public class HomeController : Controller
     {
+        private static IHostingEnvironment _env;
+        private readonly ApplicationDbContext db;
+        private AlertService _alertService { get; }
+
+        public HomeController(IHostingEnvironment hostingEnvironment, ApplicationDbContext context, AlertService alertService)
+        {
+            _env = hostingEnvironment;
+            db = context;
+            _alertService = alertService;
+        }
+
+        [Authorize]
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("MyAccount", "Account");               
         }
 
-        public IActionResult About()
+        public IActionResult StaticContent(string viewname)
         {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
+            return View(viewname);
         }
 
-        public IActionResult Contact()
+        public IActionResult AccessDenied()
         {
-            ViewData["Message"] = "Your contact page.";
-
+            _alertService.Danger("Nie posiadasz wymaganych uprawnień.");
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            _alertService.Danger("Nie znaleziono podanej strony. <a href=\"/Home/Index\">Wróć na stronę główną</a>");
+            return View();
         }
     }
 }

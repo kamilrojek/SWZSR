@@ -1,0 +1,98 @@
+﻿@model SWZSR.ViewModels.WorkshopViewModel
+@{
+    ViewData["Title"] = "Naprawa roweru" + Model.OrderItem.ItemModel;
+}
+
+@section StylesTop {
+    <link href="~/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+}
+
+<div class="col-12">
+    <h2>@ViewData["Title"]</h2>
+
+    <form asp-action="SaveOrderItem" asp-controller="Workshop" method="post">
+        <input type="hidden" asp-for="OrderItem.OrderItemId" />
+        <input type="hidden" asp-for="OrderItem.OrderId" />
+        <input type="hidden" asp-for="OrderItem.ItemModel" />
+        <input type="hidden" asp-for="OrderItem.ItemColour" />
+        <div class="row bike-group justify-content-between order-item-container">
+            <div class="col-6">
+                <div class="row justify-content-between">
+                    <div class="col-12">
+                        <input type="text" value="@Model.OrderItem.ItemModel" id="marka-input" disabled />
+                        <label for="marka-input">Marka i/lub model roweru</label>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" value="@Model.OrderItem.ItemColour" id="kolor-input" disabled />
+                        <label for="kolor-input">Kolor roweru</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 services">
+                <h3>Wybrane usługi</h3>
+
+                <select class="selectpicker uslugi-dropdown" data-select-id="0" data-live-search="true" title="Wybierz usługę z listy" data-width="100%" data-style="">
+                    @if (Model.Services != null)
+                    {
+                        foreach (var s in Model.Services)
+                        {
+                            <option value="@s.ServiceId" id="serviceId-@s.ServiceId" data-price="@s.Price">@s.Name</option>
+                        }
+                    }
+                </select>
+
+                <h4>Usługa</h4>
+                <ul class="services-list services-list-Id-0" data-select-id="0">
+                    @if (Model.OrderItem.OrderItemServices != null)
+                    {
+                        foreach (var i in Model.OrderItem.OrderItemServices)
+                        {
+                            <li data-price="@i.UnitPrice" data-id="@i.ServiceId">@i.Service.Name <span>@i.UnitPrice</span></li>
+                        }
+                    }
+                </ul>
+                <div class="services-inputs-Id-0">
+                    @if (Model.OrderItem.OrderItemServices != null)
+                    {
+                        int index = 0;
+                        foreach (var i in Model.OrderItem.OrderItemServices)
+                        {
+                            <input type="hidden" name="OrderItem.OrderItemServices[@index].ServiceId" value="@i.ServiceId">
+                            <input type="hidden" name="OrderItem.OrderItemServices[@index].UnitPrice" value="@i.UnitPrice">
+                            index++;
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="row order-form-group justify-content-between">
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-12">
+                        <textarea asp-for="OrderItem.Comment"></textarea>
+                        <label asp-for="OrderItem.Comment">Opis usterki/komentarz do naprawy</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 order-details">
+                <h3>Szczegóły zlecenia</h3>
+                <div class="flex-column">
+                    <p>Szacowany koszt:</p>
+                    <p class="big"><span id="service-sum">0</span>zł</p>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-auto">
+                <input type="submit" value="Zapisz zlecenie">
+            </div>
+        </div>
+    </form>
+
+</div>
+
+@section Scripts {
+    @*<script src="~/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>*@
+    <script src="~/js/bootstrap-select.min.js"></script>
+    <script src="~/js/additional/editorderitem.js"></script>
+}

@@ -1,0 +1,56 @@
+﻿@model SWZSR.ViewModels.AddAccountViewModel
+@{
+    ViewData["Title"] = "Dodawanie nowego użytkownika";
+}
+<div class="col-8">
+    <h2>Dodawanie nowego <span class="green">użytkownika</span></h2>
+
+    <div asp-validation-summary="All" class="alert alert-danger"></div>
+    <form asp-action="AddAccount" method="post">
+        <div class="row">
+            <div class="col-6">
+                <input asp-for="FirstName" />
+                <label asp-for="FirstName">Imię</label>
+            </div>
+            <div class="col-6">
+                <input asp-for="LastName" />
+                <label asp-for="LastName">Nazwisko</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <input asp-for="Email" />
+                <label asp-for="Email">Email</label>
+            </div>
+            <div class="col-6">
+                <input asp-for="PhoneNumber" />
+                <label asp-for="PhoneNumber">Numer telefonu</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <input asp-for="Password" />
+                <label asp-for="Password">Hasło</label>
+            </div>
+            <div class="col-6">
+                <input asp-for="ConfirmPassword" />
+                <label asp-for="ConfirmPassword">Powtórz Hasło</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <select asp-for="RoleName" class="form-control">
+                    @foreach (var role in Model.Roles)
+                    {
+                        <option>@role.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-auto">
+                <input type="submit" value="Dodaj konto">
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,38 @@
+﻿@model SWZSR.ViewModels.ChangeCredentialsViewModel
+@{
+    ViewData["Title"] = "Edytuj dane";
+}
+
+<div class="col-12">
+    <h2>@ViewData["Title"] <span class="green">konta</span></h2>
+    <form asp-action="ChangeProfile" method="post">
+        <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+        <div class="row">
+            <div class="col-6">
+                <input asp-for="FirstName" />
+                <label asp-for="FirstName">Imię</label>
+                <p class="input-warning">@Html.ValidationMessageFor(o => o.FirstName)</p>
+            </div>
+            <div class="col-6">
+                <input asp-for="LastName" />
+                <label asp-for="LastName">Nazwisko</label>
+                <p class="input-warning">@Html.ValidationMessageFor(o => o.LastName)</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <input asp-for="PhoneNumber" />
+                <label asp-for="PhoneNumber">Numer telefonu</label>
+                <p class="input-warning">@Html.ValidationMessageFor(o => o.PhoneNumber)</p>
+            </div>
+        </div>
+        <div class="row justify-content-between">
+            <div class="col-auto">
+                <a asp-action="MyAccount" class="btn btn-light">Powrót</a>
+            </div>
+            <div class="col-auto">
+                <input type="submit" value="Zapisz">
+            </div>
+        </div>
+    </form>
+</div>

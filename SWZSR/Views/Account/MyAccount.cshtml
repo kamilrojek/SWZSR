@@ -1,0 +1,25 @@
+﻿@model SWZSR.ViewModels.ManageCredentialsViewModel
+@{
+    ViewData["Title"] = "Moje konto";
+}
+
+<div class="col-12">
+    <h2>@ViewData["Title"]</h2>
+    <br />
+    <div class="row">
+        <div class="col-6">
+            <h3>Dane użytkownika</h3>
+            <p><b>@Model.UserRole</b></p>
+            <p><b>Imię:</b> @Model.Firstname</p>
+            <p><b>Nazwisko:</b> @Model.Lastname</p>
+            <p><b>Numer telefonu:</b> @Model.PhoneNumber</p>
+            <a asp-action="ChangeProfile" class="btn btn-primary">Zmień dane osobiste</a>
+        </div>
+        <div class="col-6">
+            <h3>Dane logowania</h3>
+            <p><b>Adres email:</b> @Model.Email</p>
+            <a asp-action="ChangePassword" class="btn btn-primary">Zmień hasło</a>
+        </div>
+    </div>
+</div>
+
