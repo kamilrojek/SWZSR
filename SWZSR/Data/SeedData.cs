@@ -48,17 +48,7 @@ namespace SWZSR.Data
                     new Setting { SettingId = 6, Name = "SMSAPI: email użytkownika", Value = "tech@kamilrojek.com", Key = "smsapiemail" },
                     new Setting { SettingId = 7, Name = "SMSAPI: Hash hasła", Value = "ec54883cf7f0a123c01127f50b37aedd", Key = "smsapihash" }
                 );
-                db.Database.OpenConnection();
-                try
-                {
-                    db.Database.ExecuteSqlCommand("SET IDENTITY_INSERT dbo.Settings ON");
-                    db.SaveChanges();
-                    db.Database.ExecuteSqlCommand("SET IDENTITY_INSERT dbo.Settings OFF");
-                }
-                finally
-                {
-                    db.Database.CloseConnection();
-                }
+                db.SaveChanges();
             }
 
         }

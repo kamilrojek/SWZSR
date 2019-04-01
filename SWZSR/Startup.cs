@@ -48,8 +48,9 @@ namespace SWZSR
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseLazyLoadingProxies()
-                .UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                //.UseSqlServer( Configuration.GetConnectionString("DefaultConnection"))
+                .UseNpgsql(Configuration.GetConnectionString("PostgresConnection"))
+            );
 
             services.AddIdentity<ApplicationUser, IdentityRole>(opts => {
                 opts.Password.RequiredLength = 7;
